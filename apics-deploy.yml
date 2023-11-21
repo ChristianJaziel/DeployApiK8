@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: apicsharp-deployment
+spec:
+  selector:
+    matchLabels:
+      app: apicsharp
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: apicsharp
+    spec:
+      containers:
+        - name: apicsharp
+          image: jazieln/apiicecreamcs:latest
+          env:
+            - name: DATABASE_URL
+              value: postgres://postgres:postgres@postgres-service:5432/IceStore?sslmode=disable
+          ports:
+            - containerPort: 5432
+            
+#para el servicio de exponer la api
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: apicsharp-service
+spec:
+  selector:
+    app: apicsharp
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80

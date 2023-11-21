@@ -1,0 +1,16 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress
+spec:
+  rules:
+  - host: api.cnicolas.com
+    http:
+      paths:
+      - path: /IceCream
+        pathType: Prefix
+        backend:
+          service:
+            name: apicsharp-service
+            port:
+              number: 80
